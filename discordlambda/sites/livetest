@@ -1,1 +1,26 @@
-some content
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta property="og:type" content="object" />
+    <meta property="og:site_name" content="// Commentify" />
+    <meta property="og:url" content="https://commentify.netlify.app" />
+    <meta property="og:title" content="Commentify | Prefix your text" />
+    <meta property="og:description" content="Commentify prefixes the lines of your text with a custom comment prefix, so that you can use it as a text comment block in your code." />    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:image" content="https://commentify.netlify.app/meta.png" />
+
+    <title>// Commentify</title>
+    <link rel="stylesheet" href="style.css">    
+
+  </head>
+
+  <body>
+
+  </body>
+
+</html>
