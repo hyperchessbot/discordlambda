@@ -9,17 +9,17 @@
     <meta property="og:type" content="object" />
     <meta property="og:site_name" content="xxx" />
     <meta property="og:url" content="https://oauthlambda.netlify.app/sites/xxx.html" />
-    <meta property="og:title" content="yyy" />
-    <meta property="og:description" content="ddd" />    
+    <meta property="og:title" content="Title" />
+    <meta property="og:description" content="Description" />    
     <!--<meta name="twitter:card" content="summary_large_image" />-->
     <!--<meta property="og:image" content="https://commentify.netlify.app/meta.png" />-->
 
-    <title>yyy</title>
+    <title>Title</title>
 
   </head>
 
   <body>
-    ccc
+    
   </body>
 
 </html>
