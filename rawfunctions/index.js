@@ -56,10 +56,12 @@ exports.handler = async function(event, context, callback) {
 
 	console.log("upsert result", upsertResult)*/
 
+	let upsertResult = null
+
 	if(blob.filebase64){
 		console.log("uploading file")
 
-		let upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null)
+		upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null)
 
 		console.log("upsert result", upsertResult)
 	}
@@ -69,6 +71,7 @@ exports.handler = async function(event, context, callback) {
         body: "<pre>" + JSON.stringify({
         	message: "discordlambda",
         	body: blob,
+        	upsertResult: upsertResult,
         	/*fetchedTime: time,
         	upsertResult: upsertResult,*/
         }, null, 2) + "</pre>",
