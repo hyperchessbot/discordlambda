@@ -44,6 +44,14 @@
     				Submit("Submit")
     			)
 
+    			const logoData = getLocal("logodata", null)
+
+    			if(logoData){
+    				this.fileBase64.value(logoData.b64)
+
+    				this.logoDiv.as("background-image", `url(${logoData.url})`).as("background-size", "100% 100%")
+    			}
+
     			this.logoDiv.e.addEventListener('dragover', e => {
 					e.stopPropagation()
 					e.preventDefault()
@@ -69,8 +77,12 @@
 			    			reader.onload = e => {
 			    				const result = e.target.result
 
-			    				this.logoDiv.as("background-image", `url(${result})`).as("padding", "20px")
-			    					.as("background-size", "100% 100%")
+			    				this.logoDiv.as("background-image", `url(${result})`).as("background-size", "100% 100%")
+
+			    				storeLocal("logodata", {
+			    					b64: b64,
+			    					url: result
+			    				})
 			    			}
 
 			    			reader.readAsDataURL(file)
