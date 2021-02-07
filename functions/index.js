@@ -1298,13 +1298,17 @@ exports.handler = async function(event, context, callback) {
 
 	let logoUrl = null;
 
+	const uid = Math.random().toString(36).substring(2,12);
+
 	if(b64.length > 0){
-		const logoName = `${name}.${logoExt}`;
+		const logoName = `logo_${uid}.${logoExt}`;
 		logoUrl = `sites/${logoName}`;
 		logometa = `<meta property="og:image" content="https://discordlambda.netlify.app/${logoUrl}" />`;
 	}
 
-	const contentUrl = `sites/${name}.html`;
+	const contentUrl = `sites/index_${uid}.html`;
+
+	const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`;
 
 	const html = `
 <!DOCTYPE html>
@@ -1313,7 +1317,7 @@ exports.handler = async function(event, context, callback) {
     <meta charset="utf-8">
     <meta property="og:type" content="object" />
     <meta property="og:site_name" content="${name}" />
-    <meta property="og:url" content="https://discordlambda.netlify.app/${contentUrl}" />
+    <meta property="og:url" content="${siteUrl}" />
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${description}" />    
     ${logometa}
@@ -1343,14 +1347,44 @@ exports.handler = async function(event, context, callback) {
 		console.log("upsert logo result", upsertLogoResult);
 	}
 
+	const resultsJson = JSON.stringify({
+    	message: "discordlambda",
+    	body: blob,
+    	upsertHtmlResult: upsertHtmlResult,
+    	upsertLogoResult: upsertLogoResult,
+    }, null, 2);
+
+    const responseHtml = `
+You will be soon redirected to your page, please wait ...
+
+<br>
+<br>
+
+When redirected, copy the url of your page and paste it into a Discord channel.
+
+<br>
+<br>
+
+It should be rendered as a preview.
+
+<br>
+<br>
+
+<script>
+setTimeout(_ => {
+	document.location.href = "${siteUrl}"
+}, 30000)
+</script>
+
+<hr>
+<pre>
+${resultsJson}
+</pre>
+`;
+
     return callback(null, {
         statusCode: 200,
-        body: "<pre>" + JSON.stringify({
-        	message: "discordlambda",
-        	body: blob,
-        	upsertHtmlResult: upsertHtmlResult,
-        	upsertLogoResult: upsertLogoResult,
-        }, null, 2) + "</pre>",
+        body: responseHtml,
         headers: {
         	"Content-Type": "text/html"
         }
