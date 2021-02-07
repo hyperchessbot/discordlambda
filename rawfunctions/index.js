@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import querystring from 'querystring'
 import { getContent, upsertContent } from './octokit'
 
 function getTime(){
@@ -22,6 +23,18 @@ function getTime(){
 	})
 }
 
+function parseForm(data){
+	try {
+		const json = querystring.parse(data)
+
+		return json
+	}catch(err){
+		console.log("could not parse body as form")
+
+		return data
+	}
+}
+
 exports.handler = async function(event, context, callback) {
 	let blob = event.body
 
@@ -31,6 +44,8 @@ exports.handler = async function(event, context, callback) {
 		blob = JSON.parse(event.body)
 	}catch(err){
 		console.log("could not parse body as json")
+
+		blob = await parseForm(blob)
 	}
 
 	/*let time = await getTime()
@@ -40,6 +55,14 @@ exports.handler = async function(event, context, callback) {
 	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null)
 
 	console.log("upsert result", upsertResult)*/
+
+	if(blob.filebase64){
+		console.log("uploading file")
+
+		let upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null)
+
+		console.log("upsert result", upsertResult)
+	}
 
     return callback(null, {
         statusCode: 200,

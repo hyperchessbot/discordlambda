@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/hyperchessbot/discordlambda#readme",
   "dependencies": {
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "querystring": "^0.2.0"
   },
   "devDependencies": {
     "@octokit/rest": "^18.1.0",

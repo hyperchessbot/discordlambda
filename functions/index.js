@@ -5,12 +5,14 @@ var http = require('http');
 var Url = require('url');
 require('https');
 require('zlib');
+var querystring = require('querystring');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var Stream__default = /*#__PURE__*/_interopDefaultLegacy(Stream);
 var http__default = /*#__PURE__*/_interopDefaultLegacy(http);
 var Url__default = /*#__PURE__*/_interopDefaultLegacy(Url);
+var querystring__default = /*#__PURE__*/_interopDefaultLegacy(querystring);
 
 // Based on https://github.com/tmpvar/jsdom/blob/aa85b2abf07766ff7bf5c1f6daafb3726f2f2db5/lib/jsdom/living/blob.js
 
@@ -1209,11 +1211,64 @@ Url__default['default'].resolve;
 
 const { Octokit } = require("@octokit/rest");
 
- new Octokit({
+ const defaultOwner = "hyperchessbot" ;
+ const defaultRepo = "discordlambda" ;
+ const defaultCommiterName = "hyperchessbot" ;
+ const defaultCommiterEmail = "hyperchessbot@gmail.com" ;
+ const defaultAuthorName = defaultCommiterName ;
+ const defaultAuthorEmail = defaultCommiterEmail ;
+
+ const octokit = new Octokit({
  	auth: process.env.OCTOKIT_PUSH_TOKEN,
  	userAgent: "discordlambda",
  	baseUrl: "https://api.github.com"
  });
+
+function getContent(owner, repo, path){
+	return octokit.repos.getContent({
+		repo: defaultRepo,
+		owner: defaultOwner,
+		path: path
+	})
+}
+
+async function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
+	console.log("getting sha for", path);
+
+	let sha = undefined;
+
+	try {
+		let content = await getContent(null, null, path);
+		sha = content.data.sha;
+	}catch(err){}
+
+	console.log("received sha", sha);
+
+	return octokit.repos.createOrUpdateFileContents({
+        owner: owner || defaultOwner,
+		repo: repo || defaultRepo,
+		path,
+		message: message || "Upload file",
+		content,
+		"committer.name": commiterName || defaultCommiterName,
+		"committer.email": commiterEmail || defaultCommiterEmail,
+		"author.name": authorName || defaultAuthorName,
+		"author.email": authorEmail || defaultAuthorEmail,
+		sha: sha
+	})
+}
+
+function parseForm(data){
+	try {
+		const json = querystring__default['default'].parse(data);
+
+		return json
+	}catch(err){
+		console.log("could not parse body as form");
+
+		return data
+	}
+}
 
 exports.handler = async function(event, context, callback) {
 	let blob = event.body;
@@ -1224,6 +1279,8 @@ exports.handler = async function(event, context, callback) {
 		blob = JSON.parse(event.body);
 	}catch(err){
 		console.log("could not parse body as json");
+
+		blob = await parseForm(blob);
 	}
 
 	/*let time = await getTime()
@@ -1233,6 +1290,14 @@ exports.handler = async function(event, context, callback) {
 	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null)
 
 	console.log("upsert result", upsertResult)*/
+
+	if(blob.filebase64){
+		console.log("uploading file");
+
+		let upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null);
+
+		console.log("upsert result", upsertResult);
+	}
 
     return callback(null, {
         statusCode: 200,
