@@ -48,23 +48,15 @@ exports.handler = async function(event, context, callback) {
 		blob = await parseForm(blob)
 	}
 
-	/*let time = await getTime()
-
-	console.log("upserting content")
-
-	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null)
-
-	console.log("upsert result", upsertResult)*/
-
 	let upsertResult = null
 
-	if(blob.filebase64){
+	/*if(blob.filebase64){
 		console.log("uploading file")
 
 		upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null)
 
 		console.log("upsert result", upsertResult)
-	}
+	}*/
 
     return callback(null, {
         statusCode: 200,
@@ -72,8 +64,6 @@ exports.handler = async function(event, context, callback) {
         	message: "discordlambda",
         	body: blob,
         	upsertResult: upsertResult,
-        	/*fetchedTime: time,
-        	upsertResult: upsertResult,*/
         }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"

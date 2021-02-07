@@ -1211,52 +1211,11 @@ Url__default['default'].resolve;
 
 const { Octokit } = require("@octokit/rest");
 
- const defaultOwner = "hyperchessbot" ;
- const defaultRepo = "discordlambda" ;
- const defaultCommiterName = "hyperchessbot" ;
- const defaultCommiterEmail = "hyperchessbot@gmail.com" ;
- const defaultAuthorName = defaultCommiterName ;
- const defaultAuthorEmail = defaultCommiterEmail ;
-
- const octokit = new Octokit({
+ new Octokit({
  	auth: process.env.OCTOKIT_PUSH_TOKEN,
  	userAgent: "discordlambda",
  	baseUrl: "https://api.github.com"
  });
-
-function getContent(owner, repo, path){
-	return octokit.repos.getContent({
-		repo: defaultRepo,
-		owner: defaultOwner,
-		path: path
-	})
-}
-
-async function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
-	console.log("getting sha for", path);
-
-	let sha = undefined;
-
-	try {
-		let content = await getContent(null, null, path);
-		sha = content.data.sha;
-	}catch(err){}
-
-	console.log("received sha", sha);
-
-	return octokit.repos.createOrUpdateFileContents({
-        owner: owner || defaultOwner,
-		repo: repo || defaultRepo,
-		path,
-		message: message || "Upload file",
-		content,
-		"committer.name": commiterName || defaultCommiterName,
-		"committer.email": commiterEmail || defaultCommiterEmail,
-		"author.name": authorName || defaultAuthorName,
-		"author.email": authorEmail || defaultAuthorEmail,
-		sha: sha
-	})
-}
 
 function parseForm(data){
 	try {
@@ -1283,23 +1242,15 @@ exports.handler = async function(event, context, callback) {
 		blob = await parseForm(blob);
 	}
 
-	/*let time = await getTime()
-
-	console.log("upserting content")
-
-	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null)
-
-	console.log("upsert result", upsertResult)*/
-
 	let upsertResult = null;
 
-	if(blob.filebase64){
-		console.log("uploading file");
+	/*if(blob.filebase64){
+		console.log("uploading file")
 
-		upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null);
+		upsertResult = await upsertContent(null, null, "sites/horsey.jpg", null, blob.filebase64, null, null, null, null)
 
-		console.log("upsert result", upsertResult);
-	}
+		console.log("upsert result", upsertResult)
+	}*/
 
     return callback(null, {
         statusCode: 200,
@@ -1307,8 +1258,6 @@ exports.handler = async function(event, context, callback) {
         	message: "discordlambda",
         	body: blob,
         	upsertResult: upsertResult,
-        	/*fetchedTime: time,
-        	upsertResult: upsertResult,*/
         }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"

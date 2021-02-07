@@ -1,34 +1,67 @@
-discordlambda
+<!DOCTYPE html>
+<html lang="en">
 
-<form target="_blank" method="POST" action="/.netlify/functions/index">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>  
-  <div id="dropimg" style="width:200px;height:200px;background-color: #ffa;"></div>
-  <textarea id="filebase64" name="filebase64" rows="10" cols="80"></textarea>
-  <input type="submit" value="Submit">
-</form>
-<script>
-	const dropimge = document.getElementById("dropimg")
-	dropimge.addEventListener('dragover', e => {
-		e.stopPropagation()
-		e.preventDefault()
-	})
-	dropimge.addEventListener('drop', e => {
-    	e.stopPropagation()
-    	e.preventDefault()
-    	const files = e.dataTransfer.files
-    	if(files.length > 0){
-    		const file = files[0]
-    		const reader = new FileReader()
-    		reader.onload = e => {
-    			let result = e.target.result
-    			let b64 = btoa(result)
-    			console.log("dropped file", b64)
-    			document.getElementById("filebase64").value = b64
+  <head>
+
+    <meta charset="utf-8">
+    <title>Discord Lambda</title>
+    <link rel="stylesheet" href="smartdom.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="smartdom.js"></script>
+
+  </head>
+
+  <body>
+
+    <div id="root"></div>
+
+    <script>
+    	class App extends SmartdomElement_{
+    		constructor(...props){
+    			super("div")
+
+    			this.form = form().action("/.netlify/functions/index").post().blank().a(
+    				Labeled("Title", this.titleInput = TextInput().id("title")).ac("labeledinput"),
+    				br(),
+    				Labeled("Description", this.descriptionInput = TextInput().id("description")).ac("labeledinput"),
+    				br(),
+    				Submit("Submit")
+    			)
+
+    			this.a(
+    				this.form
+    			)
+
+    			document.getElementById("root").appendChild(this.e)
     		}
-    		reader.readAsBinaryString(file)
     	}
-    })
-</script>
+
+    	new App()
+
+		/*const dropimge = document.getElementById("dropimg")
+		dropimge.addEventListener('dragover', e => {
+			e.stopPropagation()
+			e.preventDefault()
+		})
+
+		dropimge.addEventListener('drop', e => {
+	    	e.stopPropagation()
+	    	e.preventDefault()
+	    	const files = e.dataTransfer.files
+	    	if(files.length > 0){
+	    		const file = files[0]
+	    		const reader = new FileReader()
+	    		reader.onload = e => {
+	    			let result = e.target.result
+	    			let b64 = btoa(result)
+	    			console.log("dropped file", b64)
+	    			document.getElementById("filebase64").value = b64
+	    		}
+	    		reader.readAsBinaryString(file)
+	    	}
+	    })*/
+	</script>
+
+  </body>
+
+</html>
