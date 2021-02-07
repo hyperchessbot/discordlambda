@@ -38,6 +38,8 @@ export async function upsertContent(owner, repo, path, message, content, commite
 		sha = content.data.sha
 	}catch(err){}
 
+	console.log("received sha", sha)
+
 	return octokit.repos.createOrUpdateFileContents({
         owner: owner || defaultOwner,
 		repo: repo || defaultRepo,
