@@ -1,8 +1,65 @@
+function storeLocal(key, content){
+    localStorage.setItem(key, JSON.stringify(content))
+}
+
+function getLocal(key, def){
+    const stored = localStorage.getItem(key)
+
+    if(!stored) return def
+
+    try{
+        const blob = JSON.parse(stored)
+
+        return blob
+    }catch(err){
+        return def
+    }
+}
+
 class SmartdomElement_ {
     // delete childs
     x(){
         this.html("")
         return this
+    }
+
+    // add event listener
+    ae(kind, callback){
+        this.e.addEventListener(kind, callback)
+        return this
+    }
+
+    // setFromState
+    setFromState(state){
+        // abstract
+        return this
+    }
+
+    // get stored state
+    getStoredState(def){
+        if(this.storePath){
+            return getLocal(this.storePath, null)
+        }else{
+            return def || null
+        }
+    }
+
+    // get state
+    getState(){
+        // abstract
+        return null
+    }
+
+    storeState(){
+        if(this.storePath){
+            storeLocal(this.storePath, this.getState())
+        }
+    }
+
+    // storePath
+    sp(path){
+        this.storePath = path
+        return this.setFromState(this.getStoredState())
     }
 
     // set attribute
@@ -166,6 +223,27 @@ class TextInput_ extends SmartdomElement_{
         super("input", props)
         this.sa("type", "text")
         this.ac("textinput")
+        this.ae("input", this.input.bind(this))
+    }
+
+    getState(){
+        const value = this.e.value
+
+        return {
+            value: value
+        }
+    }
+
+    input(){
+        this.storeState()
+    }
+
+    setFromState(state){
+        if(state){
+            this.e.value = state.value
+        }
+
+        return this
     }
 }
 function TextInput(...props){return new TextInput_(props)}
@@ -175,6 +253,27 @@ class TextArea_ extends SmartdomElement_{
     constructor(...props){
         super("textarea", props)        
         this.ac("textarea")
+        this.ae("input", this.input.bind(this))
+    }
+
+    getState(){
+        const value = this.e.value
+
+        return {
+            value: value
+        }
+    }
+
+    input(){
+        this.storeState()
+    }
+
+    setFromState(state){
+        if(state){
+            this.e.value = state.value
+        }
+
+        return this
     }
 }
 function TextArea(...props){return new TextArea_(props)}

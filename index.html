@@ -29,13 +29,13 @@
     			super("div")
 
     			this.form = form().action("/.netlify/functions/index").post().blank().a(
-    				Labeled("Name", this.nameInput = TextInput().id("name")).ac("labeledinput"),
+    				Labeled("Name", this.nameInput = TextInput().id("name").sp("name")).ac("labeledinput"),
     				br(),
-    				Labeled("Title", this.titleInput = TextInput().id("title")).ac("labeledinput"),
+    				Labeled("Title", this.titleInput = TextInput().id("title").sp("title")).ac("labeledinput"),
     				br(),
-    				Labeled("Description", this.descriptionInput = TextInput().id("description")).ac("labeledinput"),
+    				Labeled("Description", this.descriptionInput = TextInput().id("description").sp("description")).ac("labeledinput"),
     				br(),
-    				Labeled("Article", this.articleInput = TextArea().id("article").ac("article")).ac("labeledinput"),
+    				Labeled("Article", this.articleInput = TextArea().id("article").ac("article").sp("article")).ac("labeledinput"),
     				br(),
     				Labeled("Logo", this.logoInput = div().a(this.logoDiv = div().ac("logodiv"))).ac("labeledinput"),
     				br(),
