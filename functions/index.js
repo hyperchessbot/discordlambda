@@ -1655,10 +1655,11 @@ const { Octokit } = require("@octokit/rest");
  	baseUrl: "https://api.github.com"
  });
 
-function getRepo(owner, repo){
-	return octokit.repos.get({
+function getContent(owner, repo, path){
+	return octokit.repos.getContent({
 		repo: defaultRepo,
-		owner: defaultOwner
+		owner: defaultOwner,
+		path: path
 	})
 }
 
@@ -1667,7 +1668,7 @@ function getTime(){
 		fetch("https://worldtimeapi.org/api/ip").then(
 			response => response.json().then(
 				blob => {
-					console.log(blob);
+					//console.log(blob)
 					resolve({time: blob, error: null});
 				}
 			),
@@ -1686,6 +1687,8 @@ function getTime(){
 exports.handler = async function(event, context, callback) {
 	let blob = event.body;
 
+	console.log("body", event.body);
+
 	try{
 		blob = JSON.parse(event.body);
 	}catch(err){
@@ -1694,15 +1697,22 @@ exports.handler = async function(event, context, callback) {
 
 	let time = await getTime();
 
-	let repo = await getRepo();
-	
+	console.log("getting content");
+
+	let sha = null;
+
+	try {
+		let content = await getContent(null, null, "package.json");
+		sha = content.data.sha;
+	}catch(err){}
+
     return callback(null, {
         statusCode: 200,
         body: "<pre>" + JSON.stringify({
         	message: "discordlambda",
         	body: blob,
         	fetchedTime: time,
-        	repo: repo
+        	sha: sha
         }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"

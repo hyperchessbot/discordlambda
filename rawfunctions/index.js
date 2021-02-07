@@ -1,12 +1,12 @@
 import fetch from 'node-fetch'
-import { getRepo } from './octokit'
+import { getContent } from './octokit'
 
 function getTime(){
 	return new Promise(resolve => {
 		fetch("https://worldtimeapi.org/api/ip").then(
 			response => response.json().then(
 				blob => {
-					console.log(blob)
+					//console.log(blob)
 					resolve({time: blob, error: null})
 				}
 			),
@@ -25,6 +25,8 @@ function getTime(){
 exports.handler = async function(event, context, callback) {
 	let blob = event.body
 
+	console.log("body", event.body)
+
 	try{
 		blob = JSON.parse(event.body)
 	}catch(err){
@@ -33,15 +35,22 @@ exports.handler = async function(event, context, callback) {
 
 	let time = await getTime()
 
-	let repo = await getRepo()
-	
+	console.log("getting content")
+
+	let sha = null
+
+	try {
+		let content = await getContent(null, null, "package.json")
+		sha = content.data.sha
+	}catch(err){}
+
     return callback(null, {
         statusCode: 200,
         body: "<pre>" + JSON.stringify({
         	message: "discordlambda",
         	body: blob,
         	fetchedTime: time,
-        	repo: repo
+        	sha: sha
         }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"
