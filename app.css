@@ -12,7 +12,7 @@
 }
 
 .article {
-	height: 250px;
+	height: 220px;
 }
 
 .logodiv {
@@ -78,4 +78,14 @@
 
 body {
 	background-image: url(discordlambda.jpg);
+}
+
+.textinput {
+	padding: 5px;
+	padding-left: 10px;
+}
+
+.textarea {
+	padding: 5px;
+	padding-left: 10px;
 }
