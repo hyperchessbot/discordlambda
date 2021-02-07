@@ -20,7 +20,8 @@
     "url": "https://github.com/hyperchessbot/discordlambda/issues"
   },
   "homepage": "https://github.com/hyperchessbot/discordlambda#readme",
-  "dependencies": {    
+  "dependencies": {
+    "encoding": "^0.1.13"
   },
   "devDependencies": {
     "node-fetch": "^2.6.1",
