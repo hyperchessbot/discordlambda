@@ -1,3 +1,17 @@
 .labeledinput .label {
     width: 150px;
 }
+
+.labeledinput .content .contentelement {
+    width: 600px;
+}
+
+.article {
+	height: 100px;
+}
+
+.logodiv {
+	width: 150px;
+	height: 150px;
+	background-color: #ddd;
+}

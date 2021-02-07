@@ -127,6 +127,16 @@ class div_ extends SmartdomElement_{
 }
 function div(...props){return new div_(props)}
 
+// hidden input
+class hidden_ extends SmartdomElement_{
+    constructor(id){
+        super("input")
+        this.sa("type", "hidden")
+        this.id(id)
+    }
+}
+function hidden(id){return new hidden_(id)}
+
 // br element
 class br_ extends SmartdomElement_{
     constructor(...props){
@@ -143,7 +153,7 @@ class Labeled_ extends SmartdomElement_{
         this.a(
             div().as("display", "flex").as("align-items", "center").a(
                 this.labelDiv = div().html(label).ac("label"),
-                this.contentDiv = div().a(content).ac("content")
+                this.contentDiv = div().a(content.ac("contentelement")).ac("content")
             )            
         )
     }
@@ -159,6 +169,15 @@ class TextInput_ extends SmartdomElement_{
     }
 }
 function TextInput(...props){return new TextInput_(props)}
+
+// text input element
+class TextArea_ extends SmartdomElement_{
+    constructor(...props){
+        super("textarea", props)        
+        this.ac("textarea")
+    }
+}
+function TextArea(...props){return new TextArea_(props)}
 
 // text input element
 class Submit_ extends SmartdomElement_{

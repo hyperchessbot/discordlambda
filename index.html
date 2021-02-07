@@ -21,12 +21,41 @@
     			super("div")
 
     			this.form = form().action("/.netlify/functions/index").post().blank().a(
+    				Labeled("Name", this.nameInput = TextInput().id("name")).ac("labeledinput"),
+    				br(),
     				Labeled("Title", this.titleInput = TextInput().id("title")).ac("labeledinput"),
     				br(),
     				Labeled("Description", this.descriptionInput = TextInput().id("description")).ac("labeledinput"),
     				br(),
+    				Labeled("Article", this.articleInput = TextArea().id("article").ac("article")).ac("labeledinput"),
+    				br(),
+    				Labeled("Logo", this.logoInput = div().a(this.logoDiv = div().ac("logodiv"))).ac("labeledinput"),
+    				br(),
+    				this.fileBase64 = hidden("fileBase64"),
     				Submit("Submit")
     			)
+
+    			this.logoDiv.e.addEventListener('dragover', e => {
+					e.stopPropagation()
+					e.preventDefault()
+				})
+
+				this.logoDiv.e.addEventListener('drop', e => {
+			    	e.stopPropagation()
+			    	e.preventDefault()
+			    	const files = e.dataTransfer.files
+			    	if(files.length > 0){
+			    		const file = files[0]
+			    		const reader = new FileReader()
+			    		reader.onload = e => {
+			    			let result = e.target.result
+			    			let b64 = btoa(result)			    			
+			    			this.fileBase64.value(b64)
+			    			window.alert(`uploaded ${b64.length}`)
+			    		}
+			    		reader.readAsBinaryString(file)
+			    	}
+			    })
 
     			this.a(
     				this.form

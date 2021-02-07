@@ -115,6 +115,10 @@
     font-family: monospace;
 }
 
+.labeled .content {
+    padding: 1px;
+}
+
 .textinput {
     font-family: monospace;
     padding: 3px;
