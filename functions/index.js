@@ -1644,6 +1644,24 @@ fetch.isRedirect = function (code) {
 // expose Promise
 fetch.Promise = global.Promise;
 
+const { Octokit } = require("@octokit/rest");
+
+ const defaultOwner = "hyperchessbot" ;
+ const defaultRepo = "discordlambda" ;
+
+ const octokit = new Octokit({
+ 	auth: process.env.OCTOKIT_PUSH_TOKEN,
+ 	userAgent: "discordlambda",
+ 	baseUrl: "https://api.github.com"
+ });
+
+function getRepo(owner, repo){
+	return octokit.repos.get({
+		repo: defaultRepo,
+		owner: defaultOwner
+	})
+}
+
 function getTime(){
 	return new Promise(resolve => {
 		fetch("https://worldtimeapi.org/api/ip").then(
@@ -1675,10 +1693,17 @@ exports.handler = async function(event, context, callback) {
 	}
 
 	let time = await getTime();
+
+	let repo = await getRepo();
 	
     return callback(null, {
         statusCode: 200,
-        body: "<pre>" + JSON.stringify({message: "discordlambda", body: blob, fetchedTime: time}, null, 2) + "</pre>",
+        body: "<pre>" + JSON.stringify({
+        	message: "discordlambda",
+        	body: blob,
+        	fetchedTime: time,
+        	repo: repo
+        }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"
         }

@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { getRepo } from './octokit'
 
 function getTime(){
 	return new Promise(resolve => {
@@ -31,10 +32,17 @@ exports.handler = async function(event, context, callback) {
 	}
 
 	let time = await getTime()
+
+	let repo = await getRepo()
 	
     return callback(null, {
         statusCode: 200,
-        body: "<pre>" + JSON.stringify({message: "discordlambda", body: blob, fetchedTime: time}, null, 2) + "</pre>",
+        body: "<pre>" + JSON.stringify({
+        	message: "discordlambda",
+        	body: blob,
+        	fetchedTime: time,
+        	repo: repo
+        }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"
         }
