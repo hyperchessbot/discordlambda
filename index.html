@@ -32,6 +32,7 @@
     				Labeled("Logo", this.logoInput = div().a(this.logoDiv = div().ac("logodiv"))).ac("labeledinput"),
     				br(),
     				this.fileBase64 = hidden("fileBase64"),
+    				this.logoExt = hidden("logoExt"),
     				Submit("Submit")
     			)
 
@@ -45,13 +46,26 @@
 			    	e.preventDefault()
 			    	const files = e.dataTransfer.files
 			    	if(files.length > 0){
-			    		const file = files[0]
+			    		const file = files[0]			    		
 			    		const reader = new FileReader()
 			    		reader.onload = e => {
-			    			let result = e.target.result
-			    			let b64 = btoa(result)			    			
-			    			this.fileBase64.value(b64)
-			    			window.alert(`uploaded ${b64.length}`)
+			    			const result = e.target.result
+			    			const b64 = btoa(result)			    			
+			    			this.fileBase64.value(b64)			    			
+			    			const parts = file.name.split("\.")
+			    			const ext = parts[parts.length - 1]			    			
+			    			console.log("file", ext)
+			    			this.logoExt.value(ext)
+			    			window.alert(`logo set to ${file.name} ( ${b64.length} byte(s) )`)
+
+			    			reader.onload = e => {
+			    				const result = e.target.result
+
+			    				this.logoDiv.as("background-image", `url(${result})`).as("padding", "20px")
+			    					.as("background-size", "100% 100%")
+			    			}
+
+			    			reader.readAsDataURL(file)
 			    		}
 			    		reader.readAsBinaryString(file)
 			    	}
