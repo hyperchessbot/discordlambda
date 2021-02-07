@@ -4,8 +4,8 @@
  const defaultRepo = "discordlambda" || process.env.OCTOKIT_REPO
  const defaultCommiterName = "hyperchessbot" || process.env.OCTOKIT_COMMITER_NAME
  const defaultCommiterEmail = "hyperchessbot@gmail.com" || process.env.OCTOKIT_COMMITER_EMAIL
- const defaultAuthorName = commiterName || process.env.OCTOKIT_AUTHOR_NAME
- const defaultAuthorEmail = commiterEmail || process.env.OCTOKIT_AUTHOR_EMAIL
+ const defaultAuthorName = defaultCommiterName || process.env.OCTOKIT_AUTHOR_NAME
+ const defaultAuthorEmail = defaultCommiterEmail || process.env.OCTOKIT_AUTHOR_EMAIL
 
  const octokit = new Octokit({
  	auth: process.env.OCTOKIT_PUSH_TOKEN,
@@ -30,14 +30,14 @@ export function getContent(owner, repo, path){
 
 export function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
 	return octokit.repos.createOrUpdateFileContents({
-        owner || defaultOwner,
-		repo || defaultRepo,
+        owner: owner || defaultOwner,
+		repo: repo || defaultRepo,
 		path,
-		message || "Upload file",
+		message: message || "Upload file",
 		content,
-		committer.name || defaultCommiterName,
-		committer.email || defaultCommiterEmail,
-		author.name || defaultAuthorName,
-		author.email || defaultAuthorEmail
+		"committer.name": commiterName || defaultCommiterName,
+		"committer.email": commiterEmail || defaultCommiterEmail,
+		"author.name": authorName || defaultAuthorName,
+		"author.email": authorEmail || defaultAuthorEmail
 	})
 }

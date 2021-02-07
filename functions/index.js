@@ -1648,6 +1648,10 @@ const { Octokit } = require("@octokit/rest");
 
  const defaultOwner = "hyperchessbot" ;
  const defaultRepo = "discordlambda" ;
+ const defaultCommiterName = "hyperchessbot" ;
+ const defaultCommiterEmail = "hyperchessbot@gmail.com" ;
+ const defaultAuthorName = defaultCommiterName ;
+ const defaultAuthorEmail = defaultCommiterEmail ;
 
  const octokit = new Octokit({
  	auth: process.env.OCTOKIT_PUSH_TOKEN,
@@ -1660,6 +1664,20 @@ function getContent(owner, repo, path){
 		repo: defaultRepo,
 		owner: defaultOwner,
 		path: path
+	})
+}
+
+function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
+	return octokit.repos.createOrUpdateFileContents({
+        owner: owner || defaultOwner,
+		repo: repo || defaultRepo,
+		path,
+		message: message || "Upload file",
+		content,
+		"committer.name": commiterName || defaultCommiterName,
+		"committer.email": commiterEmail || defaultCommiterEmail,
+		"author.name": authorName || defaultAuthorName,
+		"author.email": authorEmail || defaultAuthorEmail
 	})
 }
 
@@ -1705,6 +1723,12 @@ exports.handler = async function(event, context, callback) {
 		let content = await getContent(null, null, "package.json");
 		sha = content.data.sha;
 	}catch(err){}
+
+	console.log("upserting content");
+
+	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null);
+
+	console.log("upsert result", upsertResult);
 
     return callback(null, {
         statusCode: 200,

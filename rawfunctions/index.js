@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { getContent } from './octokit'
+import { getContent, upsertContent } from './octokit'
 
 function getTime(){
 	return new Promise(resolve => {
@@ -43,6 +43,12 @@ exports.handler = async function(event, context, callback) {
 		let content = await getContent(null, null, "package.json")
 		sha = content.data.sha
 	}catch(err){}
+
+	console.log("upserting content")
+
+	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null)
+
+	console.log("upsert result", upsertResult)
 
     return callback(null, {
         statusCode: 200,
