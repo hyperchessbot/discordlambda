@@ -35,15 +35,6 @@ exports.handler = async function(event, context, callback) {
 
 	let time = await getTime()
 
-	console.log("getting content")
-
-	let sha = null
-
-	try {
-		let content = await getContent(null, null, "package.json")
-		sha = content.data.sha
-	}catch(err){}
-
 	console.log("upserting content")
 
 	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null)
@@ -56,7 +47,7 @@ exports.handler = async function(event, context, callback) {
         	message: "discordlambda",
         	body: blob,
         	fetchedTime: time,
-        	sha: sha
+        	upsertResult: upsertResult,        	
         }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"

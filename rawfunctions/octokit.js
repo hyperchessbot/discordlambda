@@ -28,7 +28,16 @@ export function getContent(owner, repo, path){
 	})
 }
 
-export function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
+export async function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
+	console.log("getting sha for", path)
+
+	let sha = undefined
+
+	try {
+		let content = await getContent(null, null, path)
+		sha = content.data.sha
+	}catch(err){}
+
 	return octokit.repos.createOrUpdateFileContents({
         owner: owner || defaultOwner,
 		repo: repo || defaultRepo,
@@ -38,6 +47,7 @@ export function upsertContent(owner, repo, path, message, content, commiterName,
 		"committer.name": commiterName || defaultCommiterName,
 		"committer.email": commiterEmail || defaultCommiterEmail,
 		"author.name": authorName || defaultAuthorName,
-		"author.email": authorEmail || defaultAuthorEmail
+		"author.email": authorEmail || defaultAuthorEmail,
+		sha: sha
 	})
 }

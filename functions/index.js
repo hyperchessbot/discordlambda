@@ -1667,7 +1667,16 @@ function getContent(owner, repo, path){
 	})
 }
 
-function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
+async function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
+	console.log("getting sha for", path);
+
+	let sha = undefined;
+
+	try {
+		let content = await getContent(null, null, path);
+		sha = content.data.sha;
+	}catch(err){}
+
 	return octokit.repos.createOrUpdateFileContents({
         owner: owner || defaultOwner,
 		repo: repo || defaultRepo,
@@ -1677,7 +1686,8 @@ function upsertContent(owner, repo, path, message, content, commiterName, commit
 		"committer.name": commiterName || defaultCommiterName,
 		"committer.email": commiterEmail || defaultCommiterEmail,
 		"author.name": authorName || defaultAuthorName,
-		"author.email": authorEmail || defaultAuthorEmail
+		"author.email": authorEmail || defaultAuthorEmail,
+		sha: sha
 	})
 }
 
@@ -1715,15 +1725,6 @@ exports.handler = async function(event, context, callback) {
 
 	let time = await getTime();
 
-	console.log("getting content");
-
-	let sha = null;
-
-	try {
-		let content = await getContent(null, null, "package.json");
-		sha = content.data.sha;
-	}catch(err){}
-
 	console.log("upserting content");
 
 	let upsertResult = await upsertContent(null, null, "sites/test.html", null, Buffer.from("just a test").toString('base64'), null, null, null, null);
@@ -1736,7 +1737,7 @@ exports.handler = async function(event, context, callback) {
         	message: "discordlambda",
         	body: blob,
         	fetchedTime: time,
-        	sha: sha
+        	upsertResult: upsertResult,        	
         }, null, 2) + "</pre>",
         headers: {
         	"Content-Type": "text/html"
