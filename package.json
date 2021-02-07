@@ -1,0 +1,24 @@
+{
+  "name": "discordlambda",
+  "version": "1.0.0",
+  "description": "discord lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"building\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperchessbot/discordlambda.git"
+  },
+  "keywords": [
+    "discord",
+    "lambda"
+  ],
+  "author": "hyperchessbot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hyperchessbot/discordlambda/issues"
+  },
+  "homepage": "https://github.com/hyperchessbot/discordlambda#readme"
+}
