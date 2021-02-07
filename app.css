@@ -50,3 +50,10 @@
 .description {
 	height: 50px;
 }
+
+.draginstr {
+    font-style: italic;
+    color: #a0a;    
+    font-family: monospace;
+    margin-right: 10px;
+}

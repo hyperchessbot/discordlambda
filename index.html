@@ -41,7 +41,7 @@
 	    				br(),
 	    				Labeled("Logo", div().as("display", "flex").as("align-items", "center").a(
 	    					this.logoInput = div().a(this.logoDiv = div().ac("logodiv")),
-	    					div().as("margin-left", "20px").html("Drag an image into this box to insert your logo into the preview.")
+	    					div().as("margin-left", "20px").html("<-- Drag and drop an image into this box to insert your logo into the preview. For best rendering, the width and the height of the logo should be approximately the same.").ac("draginstr")
 	    				)).ac("labeledinput"),    				
 	    				br(),
 	    				this.fileBase64 = hidden("fileBase64"),
