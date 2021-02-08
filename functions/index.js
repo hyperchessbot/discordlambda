@@ -1211,59 +1211,73 @@ Url__default['default'].resolve;
 
 const { Octokit } = require("@octokit/rest");
 
- const defaultOwner = "hyperchessbot" ;
- const defaultRepo = "discordlambda" ;
- const defaultCommiterName = "hyperchessbot" ;
- const defaultCommiterEmail = "hyperchessbot@gmail.com" ;
- const defaultAuthorName = defaultCommiterName ;
- const defaultAuthorEmail = defaultCommiterEmail ;
+const defaultOwner = "hyperchessbot" ;
+const defaultRepo = "discordlambda" ;
+const defaultCommiterName =
+  "hyperchessbot" ;
+const defaultCommiterEmail =
+  "hyperchessbot@gmail.com" ;
+const defaultAuthorName =
+  defaultCommiterName ;
+const defaultAuthorEmail =
+  defaultCommiterEmail ;
 
- const octokit = new Octokit({
- 	auth: process.env.OCTOKIT_PUSH_TOKEN,
- 	userAgent: "discordlambda",
- 	baseUrl: "https://api.github.com"
- });
+const octokit = new Octokit({
+  auth: process.env.OCTOKIT_PUSH_TOKEN,
+  userAgent: "discordlambda",
+  baseUrl: "https://api.github.com",
+});
 
-function getContent(owner, repo, path){
-	return octokit.repos.getContent({
-		repo: defaultRepo,
-		owner: defaultOwner,
-		path: path
-	})
+function getContent(owner, repo, path) {
+  return octokit.repos.getContent({
+    repo: defaultRepo,
+    owner: defaultOwner,
+    path: path,
+  });
 }
 
-async function upsertContent(owner, repo, path, message, content, commiterName, commiterEmail, authorName, authorEmail){
-	console.log("getting sha for", path);
+async function upsertContent(
+  owner,
+  repo,
+  path,
+  message,
+  content,
+  commiterName,
+  commiterEmail,
+  authorName,
+  authorEmail
+) {
+  console.log("getting sha for", path);
 
-	let sha = undefined;
+  let sha = undefined;
 
-	try {
-		let content = await getContent(null, null, path);
-		sha = content.data.sha;
-	}catch(err){}
+  try {
+    let content = await getContent(null, null, path);
+    sha = content.data.sha;
+  } catch (err) {}
 
-	console.log("received sha", sha);
+  console.log("received sha", sha);
 
-	if(process.env.DRY_RUN){
-		console.log("dry run");
-		
-		return({
-			status: "dry run"
-		})
-	}
+  if (process.env.DRY_RUN) {
+    console.log("dry run");
 
-	return octokit.repos.createOrUpdateFileContents({
-        owner: owner || defaultOwner,
-		repo: repo || defaultRepo,
-		path,
-		message: message || "Upload file",
-		content,
-		"committer.name": commiterName || defaultCommiterName,
-		"committer.email": commiterEmail || defaultCommiterEmail,
-		"author.name": authorName || defaultAuthorName,
-		"author.email": authorEmail || defaultAuthorEmail,
-		sha: sha
-	})
+    return {
+      status: "dry run",
+    };
+  }
+
+  return octokit.repos.createOrUpdateFileContents({
+    owner: owner || defaultOwner,
+    repo: repo || defaultRepo,
+    path,
+    message: message || "Upload file",
+    content,
+    "committer.name": commiterName || defaultCommiterName,
+    "committer.email": commiterEmail || defaultCommiterEmail,
+    "author.name": authorName || defaultAuthorName,
+    "author.email": authorEmail || defaultAuthorEmail,
+    sha: sha,
+  });
 }
 
 function createCommonjsModule(fn) {
@@ -3861,63 +3875,63 @@ marked.parse = marked;
 
 var marked_1 = marked;
 
-function parseForm(data){
-	try {
-		const json = querystring__default['default'].parse(data);
+function parseForm(data) {
+  try {
+    const json = querystring__default['default'].parse(data);
 
-		return json
-	}catch(err){
-		console.log("could not parse body as form");
+    return json;
+  } catch (err) {
+    console.log("could not parse body as form");
 
-		return data
-	}
+    return data;
+  }
 }
 
-exports.handler = async function(event, context, callback) {
-	let blob = event.body;
+exports.handler = async function (event, context, callback) {
+  let blob = event.body;
 
-	console.log("body", event.body);
+  console.log("body", event.body);
 
-	try{
-		blob = JSON.parse(event.body);
-	}catch(err){
-		console.log("could not parse body as json");
+  try {
+    blob = JSON.parse(event.body);
+  } catch (err) {
+    console.log("could not parse body as json");
 
-		blob = await parseForm(blob);
-	}
+    blob = await parseForm(blob);
+  }
 
-	let upsertHtmlResult = null;
-	let upsertLogoResult = null;
+  let upsertHtmlResult = null;
+  let upsertLogoResult = null;
 
-	const name = blob.name;
-	const title = blob.title;
-	const description = blob.description;
-	let article = blob.article;
-	const logoExt = blob.logoExt;
+  const name = blob.name;
+  const title = blob.title;
+  const description = blob.description;
+  let article = blob.article;
+  const logoExt = blob.logoExt;
 
-	const b64 = blob.fileBase64;
+  const b64 = blob.fileBase64;
 
-	let logometa = "";
+  let logometa = "";
 
-	let logoUrl = null;
+  let logoUrl = null;
 
-	const uid = Math.random().toString(36).substring(2,12);
+  const uid = Math.random().toString(36).substring(2, 12);
 
-	if(b64.length > 0){
-		const logoName = `logo_${uid}.${logoExt}`;
-		logoUrl = `sites/${logoName}`;
-		logometa = `<meta property="og:image" content="https://discordlambda.netlify.app/${logoUrl}" />`;
-	}
+  if (b64.length > 0) {
+    const logoName = `logo_${uid}.${logoExt}`;
+    logoUrl = `sites/${logoName}`;
+    logometa = `<meta property="og:image" content="https://discordlambda.netlify.app/${logoUrl}" />`;
+  }
 
-	const contentUrl = `sites/index_${uid}.html`;
+  const contentUrl = `sites/index_${uid}.html`;
 
-	const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`;
+  const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`;
 
-	if(blob.usemarkdown == "on"){
-		article = marked_1(article);		
-	}
+  if (blob.usemarkdown == "on") {
+    article = marked_1(article);
+  }
 
-	const html = `
+  const html = `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -3938,30 +3952,61 @@ exports.handler = async function(event, context, callback) {
 </html>
 `;
 
-	const htmlB64 = Buffer.from(html).toString('base64');
+  const htmlB64 = Buffer.from(html).toString("base64");
 
-	console.log("generated html", html);
+  console.log("generated html", html);
 
-	console.log("uploading html", contentUrl, "length", html.length, "b64 length", htmlB64.length);
+  console.log(
+    "uploading html",
+    contentUrl,
+    "length",
+    html.length,
+    "b64 length",
+    htmlB64.length
+  );
 
-	upsertHtmlResult = await upsertContent(null, null, `site/${contentUrl}`, null, htmlB64, null, null, null, null);
+  upsertHtmlResult = await upsertContent(
+    null,
+    null,
+    `site/${contentUrl}`,
+    null,
+    htmlB64,
+    null,
+    null,
+    null,
+    null
+  );
 
-	console.log("upsert html result", upsertHtmlResult);
+  console.log("upsert html result", upsertHtmlResult);
 
-	if(logoUrl){
-		upsertLogoResult = await upsertContent(null, null, `site/${logoUrl}`, null, b64, null, null, null, null);
+  if (logoUrl) {
+    upsertLogoResult = await upsertContent(
+      null,
+      null,
+      `site/${logoUrl}`,
+      null,
+      b64,
+      null,
+      null,
+      null,
+      null
+    );
 
-		console.log("upsert logo result", upsertLogoResult);
-	}
+    console.log("upsert logo result", upsertLogoResult);
+  }
 
-	const resultsJson = JSON.stringify({
-    	message: "discordlambda",
-    	body: blob,
-    	upsertHtmlResult: upsertHtmlResult,
-    	upsertLogoResult: upsertLogoResult,
-    }, null, 2);
+  const resultsJson = JSON.stringify(
+    {
+      message: "discordlambda",
+      body: blob,
+      upsertHtmlResult: upsertHtmlResult,
+      upsertLogoResult: upsertLogoResult,
+    },
+    null,
+    2
+  );
 
-    const responseHtml = `
+  const responseHtml = `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -3999,11 +4044,11 @@ exports.handler = async function(event, context, callback) {
 </html>
 `;
 
-    return callback(null, {
-        statusCode: 200,
-        body: responseHtml,
-        headers: {
-        	"Content-Type": "text/html"
-        }
-    });
+  return callback(null, {
+    statusCode: 200,
+    body: responseHtml,
+    headers: {
+      "Content-Type": "text/html",
+    },
+  });
 };

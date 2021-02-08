@@ -1,124 +1,124 @@
 .container td {
-	background-color: #ddd;
-	padding: 3px;
-	padding-left: 5px;
-	text-align: center;
+  background-color: #ddd;
+  padding: 3px;
+  padding-left: 5px;
+  text-align: center;
 }
 
 .clabel {
-    width: 150px;
-    font-size: 16px;
-    color: #770;    
-    font-weight: bold;
-    font-style: italic;    
+  width: 150px;
+  font-size: 16px;
+  color: #770;
+  font-weight: bold;
+  font-style: italic;
 }
 
 .ccontent {
-    width: 800px;
+  width: 800px;
 }
 
 .article {
-	height: 180px;
+  height: 180px;
 }
 
 .logodiv {
-	width: 150px;
-	height: 150px;
-	background-color: #ddd;
+  width: 150px;
+  height: 150px;
+  background-color: #ddd;
 }
 
 .welcome {
-	padding: 10px;
-	margin: 3px;
-	margin-top: 10px;
-	background-color: #ddf;
-	font-size: 20px;	
-	border-style: solid;
-	border-width: 1px;
-	border-color: #77f;
-	border-radius: 12px;	
-	padding-left: 20px;
-	box-shadow: 5px 5px 4px 5px #8888dd;
+  padding: 10px;
+  margin: 3px;
+  margin-top: 10px;
+  background-color: #ddf;
+  font-size: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #77f;
+  border-radius: 12px;
+  padding-left: 20px;
+  box-shadow: 5px 5px 4px 5px #8888dd;
 }
 
 .welcome .title {
-	color: #00f;
-	font-weight: bold;
-	font-size: 25px;
+  color: #00f;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .container {
-	padding: 10px;
-	display: inline-block;
-	background-color: #aee;
-	margin: 5px;
-	margin-top: 8px;
-	margin-left: 20px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #777;
-	border-radius: 10px;	
-	box-shadow: 5px 5px 4px 5px #8888dd;
+  padding: 10px;
+  display: inline-block;
+  background-color: #aee;
+  margin: 5px;
+  margin-top: 8px;
+  margin-left: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #777;
+  border-radius: 10px;
+  box-shadow: 5px 5px 4px 5px #8888dd;
 }
 
 .submit {
-	font-size: 20px;
-	background-color: #7f7;
-	margin-left: 20px;
-	padding: 20px;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #777;
-	border-radius: 20px;	
-	color: #007;
+  font-size: 20px;
+  background-color: #7f7;
+  margin-left: 20px;
+  padding: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #777;
+  border-radius: 20px;
+  color: #007;
 }
 
 .description {
-	height: 50px;
+  height: 50px;
 }
 
 .draginstr {
-    font-style: italic;
-    color: #a0a;    
-    font-family: monospace;    
+  font-style: italic;
+  color: #a0a;
+  font-family: monospace;
 }
 
 body {
-	background-image: url(discordlambda.jpg);
+  background-image: url(discordlambda.jpg);
 }
 
 .textinput {
-	padding: 5px;
-	padding-left: 10px;
+  padding: 5px;
+  padding-left: 10px;
 }
 
 .textarea {
-	padding: 5px;
-	padding-left: 10px;
+  padding: 5px;
+  padding-left: 10px;
 }
 
 .redirect {
-	padding: 10px;
-	margin: 5px;
-	margin-top: 10px;
-	font-size: 30px;
-	background-color: #ffa;
-	color: #00f;
-	font-weight: bold;
+  padding: 10px;
+  margin: 5px;
+  margin-top: 10px;
+  font-size: 30px;
+  background-color: #ffa;
+  color: #00f;
+  font-weight: bold;
 }
 
 .redirect.note {
-	font-weight: normal;
-	background-color: #aff;
-	font-size: 20px;
-	color: #000;
+  font-weight: normal;
+  background-color: #aff;
+  font-size: 20px;
+  color: #000;
 }
 
 .readmore {
-	font-style: italic;
+  font-style: italic;
 }
 
 .result {
-	background-color: #ddd;
-	padding: 5px;
+  background-color: #ddd;
+  padding: 5px;
 }
