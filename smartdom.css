@@ -124,3 +124,17 @@
     padding: 3px;
     font-size: 14px;
 }
+
+.dropimage {
+    background-color: #aaa;    
+    border-style: dashed;
+    border-width: 1px;
+    padding: 2px;
+}
+
+.dropimage:hover {    
+    background-color: #7f7;
+    border-style: dotted;
+    border-width: 2px;    
+    padding: 1px;
+}

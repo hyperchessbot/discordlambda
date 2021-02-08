@@ -40,7 +40,7 @@
 	    				Labeled("Article", this.articleInput = TextArea().id("article").ac("article").sp("article")).ac("labeledinput"),
 	    				br(),
 	    				Labeled("Logo", div().as("display", "flex").as("align-items", "center").a(
-	    					this.logoInput = div().a(this.logoDiv = div().ac("logodiv")),
+	    					this.logoInput = div().a(this.dropLogo = DropImage().setDropCallback(this.dropLogoCallback.bind(this)).sp("droplogo")),
 	    					div().as("margin-left", "20px").html("<-- Drag and drop an image into this box to insert your logo into the preview. For best rendering, the width and the height of the logo should be approximately the same.").ac("draginstr")
 	    				)).ac("labeledinput"),    				
 	    				br(),
@@ -50,85 +50,22 @@
     				Submit("Create your site").ac("submit")
     			)
 
-    			const logoData = getLocal("logodata", null)
-
-    			if(logoData){
-    				this.fileBase64.value(logoData.b64)
-
-    				this.logoDiv.as("background-image", `url(${logoData.url})`).as("background-size", "100% 100%")
-    			}
-
-    			this.logoDiv.e.addEventListener('dragover', e => {
-					e.stopPropagation()
-					e.preventDefault()
-				})
-
-				this.logoDiv.e.addEventListener('drop', e => {
-			    	e.stopPropagation()
-			    	e.preventDefault()
-			    	const files = e.dataTransfer.files
-			    	if(files.length > 0){
-			    		const file = files[0]			    		
-			    		const reader = new FileReader()
-			    		reader.onload = e => {
-			    			const result = e.target.result
-			    			const b64 = btoa(result)			    			
-			    			this.fileBase64.value(b64)			    			
-			    			const parts = file.name.split("\.")
-			    			const ext = parts[parts.length - 1]			    			
-			    			console.log("file", ext)
-			    			this.logoExt.value(ext)
-			    			window.alert(`logo set to ${file.name} ( ${b64.length} byte(s) )`)
-
-			    			reader.onload = e => {
-			    				const result = e.target.result
-
-			    				this.logoDiv.as("background-image", `url(${result})`).as("background-size", "100% 100%")
-
-			    				storeLocal("logodata", {
-			    					b64: b64,
-			    					url: result
-			    				})
-			    			}
-
-			    			reader.readAsDataURL(file)
-			    		}
-			    		reader.readAsBinaryString(file)
-			    	}
-			    })
-
     			this.a(
     				this.form
     			)
 
     			document.getElementById("root").appendChild(this.e)
     		}
+
+    		dropLogoCallback(state){
+    			this.fileBase64.value(state.b64)			    			
+    			this.logoExt.value(state.ext)    			
+			    window.alert(`logo set to ${state.fullName} ( ${state.size} byte(s) )`)
+    		}
     	}
 
     	new App()
-
-		/*const dropimge = document.getElementById("dropimg")
-		dropimge.addEventListener('dragover', e => {
-			e.stopPropagation()
-			e.preventDefault()
-		})
-
-		dropimge.addEventListener('drop', e => {
-	    	e.stopPropagation()
-	    	e.preventDefault()
-	    	const files = e.dataTransfer.files
-	    	if(files.length > 0){
-	    		const file = files[0]
-	    		const reader = new FileReader()
-	    		reader.onload = e => {
-	    			let result = e.target.result
-	    			let b64 = btoa(result)
-	    			console.log("dropped file", b64)
-	    			document.getElementById("filebase64").value = b64
-	    		}
-	    		reader.readAsBinaryString(file)
-	    	}
-	    })*/
+		
 	</script>
 
   </body>

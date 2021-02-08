@@ -50,10 +50,12 @@ class SmartdomElement_ {
         return null
     }
 
-    storeState(){
+    storeState(state){
         if(this.storePath){
-            storeLocal(this.storePath, this.getState())
+            storeLocal(this.storePath, state || this.getState())
         }
+
+        return this
     }
 
     // storePath
@@ -175,6 +177,81 @@ class SmartdomElement_ {
         return this
     }
 }
+
+// drop image element
+class DropImage_ extends SmartdomElement_{
+    constructor(...props){
+        super("div", props)
+        this.ac("dropimage")
+        this.ae('dragover', e => {
+            e.stopPropagation()
+            e.preventDefault()
+        })
+        this.ae("drop", this.drop.bind(this))
+        this.width(150).height(150)
+    }
+
+    width(w){
+        this.width = w
+        this.aspx("width", w)
+        return this
+    }
+
+    height(h){
+        this.height = h
+        this.aspx("height", h)
+        return this
+    }
+
+    setFromState(state){
+        if(state){
+            this.as("background-image", `url(${state.url})`).as("background-size", "100% 100%")
+        }        
+
+        return this
+    }
+
+    setDropCallback(callback){
+        this.dropCallback = callback
+        return this
+    }
+
+    drop(e){
+        e.stopPropagation()
+        e.preventDefault()
+        const files = e.dataTransfer.files
+        if(files.length > 0){
+            const file = files[0]                       
+            const reader = new FileReader()
+            reader.onload = e => {
+                const result = e.target.result
+                const b64 = btoa(result)                                            
+                const parts = file.name.split("\.")                
+                const ext = parts[parts.length - 1]                                                         
+                parts.pop()
+                const name = parts.length ? parts.join(".") : ""
+                reader.onload = e => {
+                    const url = e.target.result
+                    const state = {
+                        b64: b64,
+                        url: url,
+                        fullName: file.name,
+                        name: name,
+                        ext: ext,                        
+                        size: result.length
+                    }
+                    this.storeState(state).setFromState(state)                    
+                    if(this.dropCallback){
+                        this.dropCallback(state)
+                    }
+                }
+                reader.readAsDataURL(file)
+            }
+            reader.readAsBinaryString(file)
+        }
+    }
+}
+function DropImage(...props){return new DropImage_(props)}
 
 // div element
 class div_ extends SmartdomElement_{
