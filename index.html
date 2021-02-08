@@ -52,14 +52,7 @@
     				Submit("Create your site").ac("submit")
     			)
 
-    			const dropLogoState = this.dropLogo.getState()
-
-    			console.log("drop logo state", dropLogoState)
-
-    			if(dropLogoState){
-    				this.fileBase64.value(dropLogoState.b64)			    			
-    				this.logoExt.value(dropLogoState.ext)    			
-    			}
+    			this.setFormFromDropLogoState(this.dropLogo.getState())
 
     			this.a(
     				this.form
@@ -68,9 +61,13 @@
     			document.getElementById("root").appendChild(this.e)
     		}
 
-    		dropLogoCallback(state){
+    		setFormFromDropLogoState(state){
     			this.fileBase64.value(state.b64)			    			
     			this.logoExt.value(state.ext)    			
+    		}
+
+    		dropLogoCallback(state){
+    			this.setFormFromDropLogoState(state)
 			    window.alert(`logo set to ${state.fullName} ( ${state.size} byte(s) )`)
     		}
     	}

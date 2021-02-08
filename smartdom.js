@@ -1,7 +1,9 @@
+// store local
 function storeLocal(key, content){
     localStorage.setItem(key, JSON.stringify(content))
 }
 
+// get local
 function getLocal(key, def){
     const stored = localStorage.getItem(key)
 
@@ -16,6 +18,7 @@ function getLocal(key, def){
     }
 }
 
+// smartdom base element
 class SmartdomElement_ {
     // delete childs
     x(){
@@ -29,7 +32,7 @@ class SmartdomElement_ {
         return this
     }
 
-    // setFromState
+    // set from state
     setFromState(state){
         // abstract
         return this
@@ -49,6 +52,7 @@ class SmartdomElement_ {
         return this.getStoredState()
     }
 
+    // store state
     storeState(state){
         if(this.storePath){
             storeLocal(this.storePath, state || this.getState())
@@ -57,7 +61,7 @@ class SmartdomElement_ {
         return this
     }
 
-    // storePath
+    // set store path
     sp(path){
         this.storePath = path
         return this.setFromState(this.getStoredState())
@@ -80,6 +84,7 @@ class SmartdomElement_ {
         return this.sa("id", id).sa("name", id)
     }
 
+    // flatten props
     flattenProps(props){        
         // a terminal is something that is not an array
         if(!Array.isArray(props)) return props
@@ -176,6 +181,7 @@ class SmartdomElement_ {
         return this
     }
 
+    // drag over behavior
     dragover(delay){
         this.ae('dragover', e => {
             e.stopPropagation()
@@ -406,7 +412,7 @@ class form_ extends SmartdomElement_{
 }
 function form(...props){return new form_(props)}
 
-// LogItem element
+// log item element
 class LogItem_ extends SmartdomElement_{
     constructor(...props){
         super("div", props)
@@ -448,7 +454,7 @@ class LogItem_ extends SmartdomElement_{
 }
 function LogItem(...props){return new LogItem_(props)}
 
-// LogItem element
+// logger
 class Logger_ extends SmartdomElement_{
     constructor(...props){
         super("div", props)
