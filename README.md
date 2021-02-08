@@ -6,6 +6,12 @@ Discord Lambda lets you create web content that has Discord meta information, so
 
 https://discordlambda.netlify.app/
 
+# Cloning
+
+```
+git clone --recurse-submodules https://github.com/hyperchessbot/discordlambda
+```
+
 # Building
 
 ## Prerequisites

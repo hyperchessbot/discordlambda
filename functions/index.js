@@ -3933,7 +3933,10 @@ exports.handler = async function (event, context, callback) {
 
   const mdcsstheme = blob.mdcsstheme;
 
-  let csstheme = mdcsstheme == "none" ? "" : `<link rel="stylesheet" href="/mdcssthemes/${mdcsstheme}">`;
+  let csstheme =
+    mdcsstheme == "none"
+      ? ""
+      : `<link rel="stylesheet" href="/mdcssthemes/${mdcsstheme}">`;
 
   const html = `
 <!DOCTYPE html>
