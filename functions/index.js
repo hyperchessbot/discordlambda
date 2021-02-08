@@ -1368,15 +1368,6 @@ exports.handler = async function(event, context, callback) {
   <head>
   	<title>Creating your site ...</title>
 
-    <meta charset="utf-8">
-    <meta property="og:type" content="object" />
-    <meta property="og:site_name" content="${name}" />
-    <meta property="og:url" content="${siteUrl}" />
-    <meta property="og:title" content="${title}" />
-    <meta property="og:description" content="${description}" />    
-    ${logometa}
-    <!--<meta name="twitter:card" content="summary_large_image" />-->
-
     <link rel="stylesheet" href="/app.css">
 
     <style>body {background: none;}</style>
