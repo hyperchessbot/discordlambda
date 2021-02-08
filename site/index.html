@@ -62,6 +62,8 @@
     		}
 
     		setFormFromDropLogoState(state){
+    			if(!state) return
+    				
     			this.fileBase64.value(state.b64)			    			
     			this.logoExt.value(state.ext)    			
     		}
