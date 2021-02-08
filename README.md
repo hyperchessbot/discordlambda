@@ -2,6 +2,10 @@
 
 Discord Lambda lets you create web content that has Discord meta information, so that its link is displayed as a nice preview thumbnail when pasted into a Discord channel. You can also add your logo to the preview.
 
+# Online
+
+https://discordlambda.netlify.app/
+
 # Building
 
 ## Prerequisites
