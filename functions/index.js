@@ -1363,31 +1363,52 @@ exports.handler = async function(event, context, callback) {
     }, null, 2);
 
     const responseHtml = `
-You will be soon redirected to your page, please wait ...
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<title>Creating your site ...</title>
 
-<br>
-<br>
+    <meta charset="utf-8">
+    <meta property="og:type" content="object" />
+    <meta property="og:site_name" content="${name}" />
+    <meta property="og:url" content="${siteUrl}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />    
+    ${logometa}
+    <!--<meta name="twitter:card" content="summary_large_image" />-->
 
-When redirected, copy the url of your page and paste it into a Discord channel.
+    <link rel="stylesheet" href="/app.css">
 
-<br>
-<br>
+    <style>body {background: none;}</style>
+    
+    <title>${title}</title>
+  </head>
+  <body>
+    <div class="redirect">
+	You will be soon redirected to your site, please wait ...
+	</div>
 
-It should be rendered as a preview.
+	<div class="redirect note">
+	When redirected, copy the url of your page and paste it into a Discord channel.
+	</div>
 
-<br>
-<br>
+	<div class="redirect note">
+	It should be rendered as a preview.
+	</div>
 
-<script>
-setTimeout(_ => {
-	document.location.href = "${siteUrl}"
-}, 30000)
-</script>
+	<hr>
 
-<hr>
-<pre>
-${resultsJson}
-</pre>
+	<pre>
+	${resultsJson}
+	</pre>
+
+	<script>
+		setTimeout(_ => {
+			document.location.href = "${siteUrl}"
+		}, 30000)
+	</script>
+  </body>
+</html>
 `;
 
     return callback(null, {

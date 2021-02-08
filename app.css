@@ -89,3 +89,20 @@ body {
 	padding: 5px;
 	padding-left: 10px;
 }
+
+.redirect {
+	padding: 10px;
+	margin: 5px;
+	margin-top: 10px;
+	font-size: 30px;
+	background-color: #ffa;
+	color: #00f;
+	font-weight: bold;
+}
+
+.redirect.note {
+	font-weight: normal;
+	background-color: #aff;
+	font-size: 20px;
+	color: #000;
+}
