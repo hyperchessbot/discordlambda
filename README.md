@@ -12,13 +12,13 @@ Build needs `Netlify CLI` and `rollup.js` . Install them as follows
 npm install -g netlify-cli
 ```
 
-see also https://docs.netlify.com/cli/get-started/
+*see also https://docs.netlify.com/cli/get-started/*
 
 ```
 npm install -g rollup
 ```
 
-see also https://rollupjs.org/guide/en/
+*see also https://rollupjs.org/guide/en/*
 
 ## Bundle serverless function
 
