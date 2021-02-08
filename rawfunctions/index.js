@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import querystring from 'querystring'
 import { getContent, upsertContent } from './octokit'
+import marked from 'marked'
 
 function getTime(){
 	return new Promise(resolve => {
@@ -54,7 +55,7 @@ exports.handler = async function(event, context, callback) {
 	const name = blob.name
 	const title = blob.title
 	const description = blob.description
-	const article = blob.article
+	let article = blob.article
 	const logoExt = blob.logoExt
 
 	const b64 = blob.fileBase64
@@ -74,6 +75,10 @@ exports.handler = async function(event, context, callback) {
 	const contentUrl = `sites/index_${uid}.html`
 
 	const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`
+
+	if(blob.usemarkdown == "on"){
+		article = marked(article)		
+	}
 
 	const html = `
 <!DOCTYPE html>
@@ -96,7 +101,7 @@ exports.handler = async function(event, context, callback) {
 </html>
 `
 
-	const htmlB64 = new Buffer(html).toString('base64')
+	const htmlB64 = Buffer.from(html).toString('base64')
 
 	console.log("generated html", html)
 

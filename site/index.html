@@ -30,26 +30,42 @@
     		constructor(...props){
     			super("div")
 
-    			this.form = form().action("/.netlify/functions/index").post().blank().a(
+    			this.form = form().action("/.netlify/functions/index").post().blank().as("position", "relative").a(
     				div().html(`<span class="title">Discord Lambda</span> | Create your site with a Discord preview. | <a href="https://github.com/hyperchessbot/discordlambda#discordlambda" rel="noopener noreferrer" target="_blank" class="readmore">Read more ...</a>`).ac("welcome"),
     				div().ac("container").a(
-	    				Labeled("Name", this.nameInput = TextInput().id("name").sp("name")).ac("labeledinput"),
-	    				br(),
-	    				Labeled("Title", this.titleInput = TextInput().id("title").sp("title")).ac("labeledinput"),
-	    				br(),
-	    				Labeled("Description", this.descriptionInput = TextArea().id("description").ac("description").sp("description")).ac("labeledinput"),
-	    				br(),
-	    				Labeled("Article", this.articleInput = TextArea().id("article").ac("article").sp("article")).ac("labeledinput"),
-	    				br(),
-	    				Labeled("Logo", div().as("display", "flex").as("align-items", "center").a(
-	    					this.logoInput = div().a(this.dropLogo = DropImage().setDropCallback(this.dropLogoCallback.bind(this)).sp("droplogo")),
-	    					div().as("margin-left", "20px").html("<-- Drag and drop an image into this box to insert your logo into the preview. For best rendering, the width and the height of the logo should be approximately the same.").ac("draginstr")
-	    				)).ac("labeledinput"),    				
-	    				br(),
+                        table().a(
+                            tr().a(
+                                td("clabel").html("Name"),
+                                td().a(this.nameInput = TextInput("ccontent").id("name").sp("name")),
+                            ),
+                            tr().a(
+                                td("clabel").html("Title"),
+                                td().a(this.titleInput = TextInput("ccontent").id("title").sp("title")),
+                            ),
+                            tr().a(
+                                td("clabel").html("Description"),
+                                td().a(this.descriptionInput = TextArea("ccontent").id("description").ac("description").sp("description")),
+                            ),
+                            tr().a(
+                                td("clabel").html("Article"),
+                                td().a(this.articleInput = TextArea("ccontent").id("article").ac("article").sp("article")),
+                            ),
+                            tr().a(
+                                td("clabel").html("Logo"),
+                                td("ccontent").a(div().as("display", "flex").as("align-items", "center").a(
+                            this.logoInput = div().a(this.dropLogo = DropImage().setDropCallback(this.dropLogoCallback.bind(this)).sp("droplogo")),
+                            div().as("margin-left", "20px").html("<-- Drag and drop an image into this box to insert your logo into the preview. For best rendering, the width and the height of the logo should be approximately the same.").ac("draginstr")
+                                )),
+                                div().as("position", "absolute").a(div().as("position", "absolute").a(Submit("Create your site").ac("submit"))).aspx("left", 1050).aspx("margin-top", 80)
+                            ),
+                            tr().a(
+                                td("clabel").html("Settings"),
+                                td("ccontent").a(Labeled("Use markdown", CheckBox().id("usemarkdown").sp("usemarkdown"))),
+                            )
+                        ),                        
 	    				this.fileBase64 = hidden("fileBase64"),
 	    				this.logoExt = hidden("logoExt"),
-	    			),
-    				Submit("Create your site").ac("submit")
+	    			),    
     			)
 
     			this.setFormFromDropLogoState(this.dropLogo.getState())

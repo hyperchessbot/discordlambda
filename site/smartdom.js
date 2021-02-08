@@ -145,6 +145,7 @@ class SmartdomElement_ {
         for(let klass of this.flattenProps(classes)){
             this.e.classList.add(klass)
         }
+
         return this
     }
 
@@ -154,11 +155,14 @@ class SmartdomElement_ {
         for(let klass of this.flattenProps(classes)){
             this.e.classList.remove(klass)
         }
+
+        return this
     }
 
     // add style
     as(key, value){
         this.e.style[key] = value
+
         return this
     }
 
@@ -278,6 +282,69 @@ class div_ extends SmartdomElement_{
     }
 }
 function div(...props){return new div_(props)}
+
+// table element
+class table_ extends SmartdomElement_{
+    constructor(...props){
+        super("table", props)
+    }
+}
+function table(...props){return new table_(props)}
+
+// table row element
+class tr_ extends SmartdomElement_{
+    constructor(...props){
+        super("tr", props)
+    }
+}
+function tr(...props){return new tr_(props)}
+
+// table cell element
+class td_ extends SmartdomElement_{
+    constructor(...props){
+        super("td", props)
+    }
+}
+function td(...props){return new td_(props)}
+
+// checkbox element
+class CheckBox_ extends SmartdomElement_{
+    constructor(...props){
+        super("input", props)
+        this.sa("type", "checkbox")
+        this.ae("input", this.input.bind(this))
+        this.ac("checkbox")
+    }
+
+    getState(){
+        return {
+            checked: this.isChecked()
+        }
+    }
+
+    setChecked(value){
+        this.e.checked = value
+
+        return this
+    }
+
+    isChecked(){
+        return this.e.checked
+    }
+
+    setFromState(state){
+        if(state){
+            return this.setChecked(state.checked)
+        }        
+
+        return this
+    }
+
+    input(){
+        this.storeState(this.getState())
+    }
+}
+function CheckBox(...props){return new CheckBox_(props)}
 
 // hidden input
 class hidden_ extends SmartdomElement_{

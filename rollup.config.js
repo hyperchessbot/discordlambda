@@ -1,4 +1,5 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default {
   input: 'rawfunctions/index.js',
@@ -6,5 +7,5 @@ export default {
     dir: 'functions',
     format: 'cjs'
   },
-  plugins: [nodeResolve()]
+  plugins: [commonjs(), nodeResolve()]  
 };

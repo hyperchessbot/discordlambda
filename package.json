@@ -24,9 +24,10 @@
     "encoding": "^0.1.13"
   },
   "devDependencies": {
-    "querystring": "^0.2.0",
     "@octokit/rest": "^18.1.0",
+    "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.1.1",
+    "marked": "^2.0.0",
     "node-fetch": "^2.6.1"
   }
 }
