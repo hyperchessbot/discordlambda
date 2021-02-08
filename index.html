@@ -13,8 +13,10 @@
     <meta property="og:image" content="https://discordlambda.netlify.app/discordlambda.jpg" />
 	  
     <title>Discord Lambda</title>
+
     <link rel="stylesheet" href="smartdom.css">
     <link rel="stylesheet" href="app.css">
+
     <script src="smartdom.js"></script>
 
   </head>
@@ -49,6 +51,15 @@
 	    			),
     				Submit("Create your site").ac("submit")
     			)
+
+    			const dropLogoState = this.dropLogo.getState()
+
+    			console.log("drop logo state", dropLogoState)
+
+    			if(dropLogoState){
+    				this.fileBase64.value(dropLogoState.b64)			    			
+    				this.logoExt.value(dropLogoState.ext)    			
+    			}
 
     			this.a(
     				this.form

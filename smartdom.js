@@ -46,8 +46,7 @@ class SmartdomElement_ {
 
     // get state
     getState(){
-        // abstract
-        return null
+        return this.getStoredState()
     }
 
     storeState(state){
