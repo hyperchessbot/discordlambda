@@ -31,7 +31,7 @@
     			super("div")
 
     			this.form = form().action("/.netlify/functions/index").post().blank().a(
-    				div().html(`<span class="title">Discord Lambda</span> | Create your site with a Discord preview.`).ac("welcome"),
+    				div().html(`<span class="title">Discord Lambda</span> | Create your site with a Discord preview. | <a href="https://github.com/hyperchessbot/discordlambda#discordlambda" rel="noopener noreferrer" target="_blank" class="readmore">Read more ...</a>`).ac("welcome"),
     				div().ac("container").a(
 	    				Labeled("Name", this.nameInput = TextInput().id("name").sp("name")).ac("labeledinput"),
 	    				br(),
