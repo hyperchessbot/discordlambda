@@ -71,6 +71,11 @@
   border-color: #777;
   border-radius: 20px;
   color: #007;
+  width: 190px;
+}
+
+.submit.preview {
+  background-color: #aff;
 }
 
 .description {

@@ -111,6 +111,19 @@
                         .a(
                           div()
                             .as("position", "absolute")
+                            .a(
+                              button(this.submitPreview.bind(this))
+                                .html("Preview")
+                                .ac("submit", "preview")
+                            )
+                        )
+                        .aspx("left", 1050)
+                        .aspx("margin-top", -120),
+                      div()
+                        .as("position", "absolute")
+                        .a(
+                          div()
+                            .as("position", "absolute")
                             .a(Submit("Create your site").ac("submit"))
                         )
                         .aspx("left", 1050)
@@ -127,7 +140,8 @@
                     )
                   ),
                   (this.fileBase64 = hidden("fileBase64")),
-                  (this.logoExt = hidden("logoExt"))
+                  (this.logoExt = hidden("logoExt")),
+                  (this.preview = hidden("preview"))
                 )
             );
 
@@ -136,6 +150,14 @@
           this.a(this.form);
 
           document.getElementById("root").appendChild(this.e);
+        }
+
+        submitPreview() {
+          this.preview.e.value = "true";
+
+          this.form.e.submit();
+
+          this.preview.e.value = "false";
         }
 
         setFormFromDropLogoState(state) {

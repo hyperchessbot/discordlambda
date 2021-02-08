@@ -3952,9 +3952,19 @@ exports.handler = async function (event, context, callback) {
 </html>
 `;
 
-  const htmlB64 = Buffer.from(html).toString("base64");
+  if (blob.preview == "true") {
+    return callback(null, {
+      statusCode: 200,
+      body: html,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
+  }
 
   console.log("generated html", html);
+
+  const htmlB64 = Buffer.from(html).toString("base64");
 
   console.log(
     "uploading html",

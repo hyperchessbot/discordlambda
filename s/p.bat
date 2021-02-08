@@ -1,3 +1,5 @@
+call s\r
+
 git add .
 
 git commit -m "%*"

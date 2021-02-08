@@ -473,7 +473,19 @@ function TextArea(...props) {
   return new TextArea_(props);
 }
 
-// text input element
+// button element
+class button_ extends SmartdomElement_ {
+  constructor(callback, ...props) {
+    super("button", props);
+    this.ac("button");
+    if (callback) this.ae("click", callback);
+  }
+}
+function button(callback, ...props) {
+  return new button_(callback, props);
+}
+
+// submit element
 class Submit_ extends SmartdomElement_ {
   constructor(caption, ...props) {
     super("input", props);
