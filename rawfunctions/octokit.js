@@ -40,6 +40,14 @@ export async function upsertContent(owner, repo, path, message, content, commite
 
 	console.log("received sha", sha)
 
+	if(process.env.DRY_RUN){
+		console.log("dry run")
+		
+		return({
+			status: "dry run"
+		})
+	}
+
 	return octokit.repos.createOrUpdateFileContents({
         owner: owner || defaultOwner,
 		repo: repo || defaultRepo,
