@@ -112,3 +112,8 @@ body {
 .readmore {
 	font-style: italic;
 }
+
+.result {
+	background-color: #ddd;
+	padding: 5px;
+}

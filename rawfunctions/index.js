@@ -67,11 +67,11 @@ exports.handler = async function(event, context, callback) {
 
 	if(b64.length > 0){
 		const logoName = `logo_${uid}.${logoExt}`
-		logoUrl = `sites/${logoName}`
+		logoUrl = `site/sites/${logoName}`
 		logometa = `<meta property="og:image" content="https://discordlambda.netlify.app/${logoUrl}" />`
 	}
 
-	const contentUrl = `sites/index_${uid}.html`
+	const contentUrl = `site/sites/index_${uid}.html`
 
 	const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`
 
@@ -146,9 +146,7 @@ exports.handler = async function(event, context, callback) {
 
 	<hr>
 
-	<pre>
-	${resultsJson}
-	</pre>
+	<pre class="result">${resultsJson}</pre>
 
 	<script>
 		setTimeout(_ => {
