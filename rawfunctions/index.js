@@ -67,11 +67,11 @@ exports.handler = async function(event, context, callback) {
 
 	if(b64.length > 0){
 		const logoName = `logo_${uid}.${logoExt}`
-		logoUrl = `site/sites/${logoName}`
+		logoUrl = `sites/${logoName}`
 		logometa = `<meta property="og:image" content="https://discordlambda.netlify.app/${logoUrl}" />`
 	}
 
-	const contentUrl = `site/sites/index_${uid}.html`
+	const contentUrl = `sites/index_${uid}.html`
 
 	const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`
 
@@ -102,12 +102,12 @@ exports.handler = async function(event, context, callback) {
 
 	console.log("uploading html", contentUrl, "length", html.length, "b64 length", htmlB64.length)
 
-	upsertHtmlResult = await upsertContent(null, null, contentUrl, null, htmlB64, null, null, null, null)
+	upsertHtmlResult = await upsertContent(null, null, `site/${contentUrl}`, null, htmlB64, null, null, null, null)
 
 	console.log("upsert html result", upsertHtmlResult)
 
 	if(logoUrl){
-		upsertLogoResult = await upsertContent(null, null, logoUrl, null, b64, null, null, null, null)
+		upsertLogoResult = await upsertContent(null, null, `site/${logoUrl}`, null, b64, null, null, null, null)
 
 		console.log("upsert logo result", upsertLogoResult)
 	}
