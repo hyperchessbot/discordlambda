@@ -3931,6 +3931,10 @@ exports.handler = async function (event, context, callback) {
     article = marked_1(article);
   }
 
+  const mdcsstheme = blob.mdcsstheme;
+
+  let csstheme = mdcsstheme == "none" ? "" : `<link rel="stylesheet" href="/mdcssthemes/${mdcsstheme}">`;
+
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -3943,6 +3947,8 @@ exports.handler = async function (event, context, callback) {
     <meta property="og:description" content="${description}" />    
     ${logometa}
     <!--<meta name="twitter:card" content="summary_large_image" />-->
+
+    ${csstheme}
     
     <title>${title}</title>
   </head>

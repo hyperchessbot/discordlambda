@@ -73,6 +73,12 @@ class SmartdomElement_ {
     return this;
   }
 
+  // remove attribute
+  ra(key, value) {
+    this.e.removeAttribute(key, value);
+    return this;
+  }
+
   // value
   value(value) {
     this.e.value = value;
@@ -291,6 +297,78 @@ class div_ extends SmartdomElement_ {
 }
 function div(...props) {
   return new div_(props);
+}
+
+// option element
+class option_ extends SmartdomElement_ {
+  constructor(value, display, ...props) {
+    super("option", props);
+    this.e.value = value;
+    this.html(display);
+  }
+
+  selected(value) {
+    value ? this.sa("selected", true) : this.ra("selected");
+
+    return this;
+  }
+}
+function option(value, display, ...props) {
+  return new option_(value, display, props);
+}
+
+// select element
+class select_ extends SmartdomElement_ {
+  constructor(...props) {
+    super("select", props);
+    this.options = [];
+    this.ae("input", this.input.bind(this));
+  }
+
+  input() {
+    console.log(this.e);
+    this.storeState({
+      keyvalues: this.keyvalues,
+      selected: this.e.value,
+    });
+  }
+
+  setFromState(state) {
+    if (state) {
+      this.setOptions(state.keyvalues, state.selected);
+    }
+
+    return this;
+  }
+
+  setOptionsFromList(values, selected) {
+    return this.setOptions(values.map((value) => [value, value], selected));
+  }
+
+  setOptions(keyvalues, selected) {
+    this.keyvalues = keyvalues || null;
+    this.selected = selected || this.keyvalues[0][0] || null;
+
+    this.x();
+
+    if (keyvalues.length) {
+      this.options = this.keyvalues.map((keyvalue) =>
+        option(keyvalue[0], keyvalue[1]).selected(keyvalue[0] == this.selected)
+      );
+
+      this.a(this.options);
+    }
+
+    this.storeState({
+      keyvalues: this.keyvalues,
+      selected: this.selected,
+    });
+
+    return this;
+  }
+}
+function select(...props) {
+  return new select_(props);
 }
 
 // table element

@@ -32,6 +32,7 @@
 
     <script>
       const mdcssthemes = [
+        "none",
         "avenir-white.css",
         "foghorn.css",
         "markdown-alt.css",
@@ -154,6 +155,13 @@
                         Labeled(
                           "Use markdown",
                           CheckBox().id("usemarkdown").sp("usemarkdown")
+                        ),
+                        Labeled(
+                          "Markdown css theme",
+                          select()
+                            .setOptionsFromList(mdcssthemes)
+                            .id("mdcsstheme")
+                            .sp("mdcsstheme")
                         )
                       )
                     )
