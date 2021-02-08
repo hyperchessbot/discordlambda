@@ -175,17 +175,30 @@ class SmartdomElement_ {
         }
         return this
     }
+
+    dragover(delay){
+        this.ae('dragover', e => {
+            e.stopPropagation()
+            e.preventDefault()
+            this.ac("dragover")
+            if(this.dragoverTimeout){
+                clearTimeout(this.dragoverTimeout)
+                this.dragoverTimeout = null
+            }
+            this.dragoverTimeout = setTimeout(_ => this.rc("dragover"), delay || 1000)
+        })
+
+        return this
+    }
 }
 
 // drop image element
 class DropImage_ extends SmartdomElement_{
     constructor(...props){
         super("div", props)
-        this.ac("dropimage")
-        this.ae('dragover', e => {
-            e.stopPropagation()
-            e.preventDefault()
-        })
+        this.ac("dropimage").dragover()
+        this.ae("mouseout", _ => this.rc("dragover"))
+        this.ae("mouseover", _ => this.ac("dragover"))
         this.ae("drop", this.drop.bind(this))
         this.width(150).height(150)
     }

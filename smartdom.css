@@ -132,7 +132,8 @@
     padding: 2px;
 }
 
-.dropimage:hover {    
+.dropimage.dragover {
+    background-color: #00f;
     background-color: #7f7;
     border-style: dotted;
     border-width: 2px;    
