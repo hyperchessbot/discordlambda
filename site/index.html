@@ -168,9 +168,14 @@
                   ),
                   (this.fileBase64 = hidden("fileBase64")),
                   (this.logoExt = hidden("logoExt")),
-                  (this.preview = hidden("preview"))
+                  (this.preview = hidden("preview")),
+                  (this.password = hidden("password"))
                 )
             );
+
+          const storedPassword = localStorage.getItem("password");
+
+          if (storedPassword) this.password.value(storedPassword);
 
           this.setFormFromDropLogoState(this.dropLogo.getState());
 

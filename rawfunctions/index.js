@@ -63,15 +63,34 @@ exports.handler = async function (event, context, callback) {
 
   let logoUrl = null;
 
-  const uid = Math.random().toString(36).substring(2, 12);
+  let folder = "sites";
+
+  let uid = Math.random().toString(36).substring(2, 12);
+
+  const password = blob.password;
+
+  if (password) {
+    console.log("password submitted", password);
+
+    if (password == process.env.PASSWORD) {
+      console.log("password ok, changing publish folder to posts");
+
+      folder = "posts";
+      uid = name;
+    } else {
+      console.log("invalid password");
+    }
+  } else {
+    console.log("no password submitted");
+  }
 
   if (b64.length > 0) {
     const logoName = `logo_${uid}.${logoExt}`;
-    logoUrl = `sites/${logoName}`;
+    logoUrl = `${folder}/${logoName}`;
     logometa = `<meta property="og:image" content="https://discordlambda.netlify.app/${logoUrl}" />`;
   }
 
-  const contentUrl = `sites/index_${uid}.html`;
+  const contentUrl = `${folder}/index_${uid}.html`;
 
   const siteUrl = `https://discordlambda.netlify.app/${contentUrl}`;
 
