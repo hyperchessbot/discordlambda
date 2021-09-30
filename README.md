@@ -41,7 +41,6 @@ rollup -c
 ```
 netlify build
 ```
-
 ### Prerequisites ( env vars )
 
 `NETLIFY_AUTH_TOKEN`
