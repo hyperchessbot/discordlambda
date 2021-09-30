@@ -42,6 +42,16 @@ rollup -c
 netlify build
 ```
 
+### Prerequisites ( env vars )
+
+`NETLIFY_AUTH_TOKEN`
+
+Generate in User Settins / Applications.
+
+`NETLIFY_SITE_ID`
+
+Look up Site Details.
+
 ## Set up dev server
 
 ### Linux
